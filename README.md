@@ -118,7 +118,7 @@ uv run uvicorn app.main:app --reload
 
 ---
 
-## 🖥️ Using the UI
+##  Using the UI
 
 1. Open `/ui`  
 2. Upload one or more documents  
@@ -169,3 +169,61 @@ This project demonstrates **real-world RAG engineering** with an emphasis on:
 - Clear extensibility path  
 
 It is suitable for **enterprise knowledge bases, internal Q&A systems, and AI platform evaluations**.
+---
+
+##  Sample Test Files & Quick Validation
+
+This repo can be tested end-to-end using the built-in UI **or** the APIs below.
+
+###  Sample documents (recommended)
+Add these to your repo under `sample_docs/` (or use your own PDFs/DOCXs):
+
+- `sample_docs/WIND_Synthesis_AI_Overview_Sample.pdf`
+- `sample_docs/Sample_Knowledge_Base_DOCX.docx`
+
+###  Test via UI (fastest)
+1. Start the server:
+   ```bash
+   uv run uvicorn app.main:app --reload
+   ```
+2. Open the UI:
+   - `http://127.0.0.1:8000/ui`
+3. Upload one or both sample files, then run the questions below.
+
+###  Test via API (curl)
+**Upload (Windows PowerShell):**
+```powershell
+curl -v -X POST "http://127.0.0.1:8000/v1/documents/upload" `
+  -F "files=@sample_docs/WIND_Synthesis_AI_Overview_Sample.pdf" `
+  -F "files=@sample_docs/Sample_Knowledge_Base_DOCX.docx"
+```
+
+**Ask a question (answerable):**
+```powershell
+curl -X POST "http://127.0.0.1:8000/v1/query" `
+  -H "Content-Type: application/json" `
+  -d "{ ""question"": ""List the core tasks and responsibilities of WIND Synthesis AI."", ""top_k"": 6 }"
+```
+
+**Ask a question (should be missing info / no hallucination):**
+```powershell
+curl -X POST "http://127.0.0.1:8000/v1/query" `
+  -H "Content-Type: application/json" `
+  -d "{ ""question"": ""What is the annual revenue and headquarters location of WIND Synthesis AI?"", ""top_k"": 6 }"
+```
+
+###  Suggested evaluation questions
+Use these to validate key behaviors:
+
+**Grounded answer + citations**
+- “What is WIND Synthesis AI focused on?”
+- “List the core tasks and responsibilities of WIND Synthesis AI.”
+- “How does this system prevent hallucinations?”
+
+**Missing info detection**
+- “What is the annual revenue of WIND Synthesis AI?”
+- “Where is WIND Synthesis AI headquartered?”
+
+**Cross-document retrieval**
+- “What does the DOCX say about missing information detection?”
+- “How does the system generate citations?”
