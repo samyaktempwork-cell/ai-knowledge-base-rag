@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AI Knowledge Base RAG</title>
+  <link rel="stylesheet" href="/ui/static/styles.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>AI Knowledge Base RAG</h1>
+      <div class="sub">Upload docs → Ask questions → See citations + missing info</div>
+    </header>
+
+    <section class="card">
+      <h2>1) Upload Documents</h2>
+      <div class="row">
+        <input id="files" type="file" multiple />
+        <button id="uploadBtn">Upload</button>
+      </div>
+      <div class="hint">Supported: PDF, DOCX (based on your extractor)</div>
+      <pre id="uploadOut" class="out"></pre>
+    </section>
+
+    <section class="card">
+      <h2>2) Ask a Question</h2>
+      <textarea id="question" placeholder="Example: List the key tasks and responsibilities of WIND Synthesis AI."></textarea>
+
+      <div class="row">
+        <label for="topk">top_k</label>
+        <input id="topk" type="number" value="6" min="1" max="20"/>
+        <button id="askBtn">Ask</button>
+      </div>
+
+      <div id="prettyAnswer" class="answer"></div>
+
+      <details class="details">
+        <summary>Raw JSON response</summary>
+        <pre id="answerOut" class="out"></pre>
+      </details>
+    </section>
+
+    <footer class="footer">
+      Tip: open <a href="/docs" target="_blank" rel="noreferrer">/docs</a> for Swagger.
+    </footer>
+  </div>
+
+  <script src="/ui/static/app.js"></script>
+</body>
+</html>
